@@ -58,7 +58,7 @@ def get_openai_client() -> OpenAI:
             "OPENAI_API_KEY environment variable is not set. "
             "Please set it before running the program.\n"
             "Echo is the easiest way to get started.\n"
-            "Get an API key at https://echo.merit.systems/cli-auth?appId=f6e82af0-ddda-47d9-9bb5-a82ffa41ba73"
+            "Get an API key at https://echo.merit.systems/cli-auth?appId=f6e82af0-ddda-47d9-9bb5-a82ffa41ba73 \n"
             "and set it with `export OPENAI_API_KEY=<your-key>`"
         )
     if api_key.startswith("echo_"):
