@@ -1,5 +1,5 @@
 [project]
-name = "llmjq"
+name = "jqai"
 version = "0.1.0"
 description = "Generate and execute jq programs using LLMs"
 readme = "README.md"
@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.scripts]
-llmjq = "llmjq:run"
+jqai = "jqai:run"
 
 [build-system]
 requires = ["uv_build>=0.8.3,<0.9.0"]

@@ -1,5 +1,5 @@
 """
-LLMJQ - A tool to generate and execute jq programs using LLMs.
+jqai - A tool to generate and execute jq programs using LLMs.
 """
 from typing import Optional
 import os
@@ -42,7 +42,7 @@ will be executed as a shell command.
 
 @dataclass
 class Config:
-    """Configuration for LLMJQ."""
+    """Configuration for jqai."""
     model_name: str = DEFAULT_MODEL
     preview_length: int = DEFAULT_PREVIEW_LENGTH
     output_only: bool = False
@@ -273,16 +273,16 @@ def main(
 
     Examples:
         # Pipe JSON and transform it
-        cat data.json | llmjq "get all user names and emails"
+        cat data.json | jqai "get all user names and emails"
 
         # Direct command that fetches and processes data
-        llmjq "show the latest 5 issues from simonw/datasette repo"
+        jqai "show the latest 5 issues from simonw/datasette repo"
 
         # Only output the generated jq program
-        cat data.json | llmjq "count items by type" --output-only
+        cat data.json | jqai "count items by type" --output-only
 
         # Use a different model with verbose output
-        cat data.json | llmjq "complex analysis" --model gpt-4-turbo-preview --verbose
+        cat data.json | jqai "complex analysis" --model gpt-4-turbo-preview --verbose
     """
     try:
         model = get_openai_client()
