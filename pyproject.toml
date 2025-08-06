@@ -1,0 +1,20 @@
+[project]
+name = "llmjq"
+version = "0.1.0"
+description = "Generate and execute jq programs using LLMs"
+readme = "README.md"
+authors = [
+    { name = "Mason Hall", email = "masonhall@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=1.60.0",
+    "typer>=0.15.1",
+]
+
+[project.scripts]
+llmjq = "llmjq:run"
+
+[build-system]
+requires = ["uv_build>=0.8.3,<0.9.0"]
+build-backend = "uv_build"
