@@ -1,6 +1,7 @@
 """
 jqai - A tool to generate and execute jq programs using LLMs.
 """
+
 from typing import Optional
 import os
 import sys
@@ -43,6 +44,7 @@ will be executed as a shell command.
 @dataclass
 class Config:
     """Configuration for jqai."""
+
     model_name: str = DEFAULT_MODEL
     preview_length: int = DEFAULT_PREVIEW_LENGTH
     output_only: bool = False
@@ -67,15 +69,16 @@ def get_openai_client() -> OpenAI:
         base_url = "https://api.openai.com/v1"
     return OpenAI(api_key=api_key, base_url=base_url)
 
+
 def generate_jq_program(
     intent: str,
     example_json: Optional[str],
     model: OpenAI,
     config: Config,
-    system_prompt: str
+    system_prompt: str,
 ) -> str:
     """Generate a jq program using the LLM.
-    
+
     Args:
         intent: Natural language description of the desired transformation
         example_json: Optional example JSON to help guide the generation
@@ -98,20 +101,16 @@ def generate_jq_program(
             {"role": "user", "content": prompt},
         ],
     )
-    
+
     program = response.choices[0].message.content.strip()
-    
+
     if config.verbose:
         print(f"Response:\n{program}")
-    
+
     return program
 
 
-def execute_jq(
-    program: str,
-    initial_data: Optional[bytes],
-    config: Config
-) -> None:
+def execute_jq(program: str, initial_data: Optional[bytes], config: Config) -> None:
     """Execute the generated jq program with the provided input."""
     process = subprocess.Popen(
         ["jq", program],
@@ -132,7 +131,7 @@ def execute_jq(
                 if not chunk:
                     break
                 process.stdin.write(chunk)
-        
+
         # Important: Close stdin to signal we're done writing
         process.stdin.close()
 
@@ -201,11 +200,7 @@ def execute_command(command: str, config: Config) -> None:
         sys.exit(130)
 
 
-def jq(
-    intent: str,
-    model: OpenAI,
-    config: Config
-) -> None:
+def jq(intent: str, model: OpenAI, config: Config) -> None:
     """
     Process JSON data with a jq program generated from a natural language description.
 
@@ -242,23 +237,27 @@ def main(
     intent: str,
     model_name: str = typer.Option(
         DEFAULT_MODEL,
-        "--model", "-m",
-        help="The OpenAI model to use for generating jq programs"
+        "--model",
+        "-m",
+        help="The OpenAI model to use for generating jq programs",
     ),
     preview_length: int = typer.Option(
         DEFAULT_PREVIEW_LENGTH,
-        "--preview-length", "-p",
-        help="Number of bytes to read from input for preview in LLM context"
+        "--preview-length",
+        "-p",
+        help="Number of bytes to read from input for preview in LLM context",
     ),
     output_only: bool = typer.Option(
         False,
-        "--output-only", "-o",
-        help="Only output the generated program without executing it"
+        "--output-only",
+        "-o",
+        help="Only output the generated program without executing it",
     ),
     silent: bool = typer.Option(
         True,
-        "--silent/--verbose", "-s/-v",
-        help="Control output verbosity. Verbose mode shows prompts and responses"
+        "--silent/--verbose",
+        "-s/-v",
+        help="Control output verbosity. Verbose mode shows prompts and responses",
     ),
 ) -> None:
     """
@@ -291,7 +290,7 @@ def main(
             preview_length=preview_length,
             output_only=output_only,
             silent=silent,
-            verbose=not silent
+            verbose=not silent,
         )
         jq(intent, model, config)
     except Exception as e:
